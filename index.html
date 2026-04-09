@@ -22,12 +22,37 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: var(--dark);
+    background:
+      radial-gradient(circle at 50% 0%, rgba(255,230,0,.03) 0%, transparent 28%),
+      radial-gradient(circle at 16% 18%, rgba(255,255,255,.045) 0%, transparent 24%),
+      radial-gradient(circle at 82% 12%, rgba(255,255,255,.03) 0%, transparent 22%),
+      radial-gradient(circle at 68% 72%, rgba(255,255,255,.025) 0%, transparent 26%),
+      linear-gradient(180deg, #060606 0%, #0b0b0b 46%, #090909 100%);
     color: var(--text);
     font-family: var(--font-body);
     font-size: 16px;
-    line-height: 1.7;
+    line-height: 1.8;
     overflow-x: hidden;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 12%, rgba(255,230,0,.03) 0%, transparent 22%),
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,.025) 0%, transparent 20%),
+      radial-gradient(circle at 78% 28%, rgba(255,255,255,.02) 0%, transparent 22%);
+    pointer-events: none;
+    z-index: -2;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,.012), transparent 24%, rgba(255,255,255,.01) 100%);
+    pointer-events: none;
+    z-index: -1;
   }
 
   a { color: inherit; text-decoration: none; }
@@ -61,7 +86,26 @@
     transition: transform .2s, box-shadow .2s, background .2s;
     text-align: center;
     letter-spacing: -.01em;
+    animation: pulse 2.8s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
   }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: -120%;
+    left: -38%;
+    width: 34%;
+    height: 320%;
+    background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,.1) 20%, rgba(255,255,255,.7) 50%, rgba(255,255,255,.1) 80%, transparent 100%);
+    transform: rotate(22deg);
+    animation: shine 3s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: screen;
+  }
+  .btn-primary > * { position: relative; z-index: 2; }
   .btn-primary:hover {
     transform: translateY(-3px) scale(1.03);
     box-shadow: 0 16px 48px rgba(255,230,0,.35);
@@ -87,7 +131,7 @@
     box-shadow: 0 2px 24px rgba(0,0,0,.5);
   }
   header .logo-img {
-    height: 32px;
+    height: 44px;
     display: block;
   }
   header .btn-header {
@@ -114,6 +158,9 @@
     padding: 72px 24px 56px;
     text-align: center;
     position: relative;
+    background:
+      radial-gradient(circle at 50% 20%, rgba(255,230,0,.03) 0%, transparent 30%),
+      linear-gradient(180deg, rgba(255,255,255,.018) 0%, transparent 100%);
   }
   .hero::before {
     content: '';
@@ -134,28 +181,26 @@
     pointer-events: none;
   }
   .hero .tag { margin-bottom: 28px; }
-  .hero-logo-wrap {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto 18px;
-  }
-  .hero-logo {
-    width: min(190px, 42vw);
-    height: auto;
-    display: block;
-    filter: drop-shadow(0 16px 36px rgba(0,0,0,.42));
-  }
   .hero h1 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(42px, 7vw, 76px);
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: 0.02em;
-    color: #fff;
+    color: transparent;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFE600 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
     max-width: 800px;
     margin: 0 auto 20px;
+    text-shadow: 0 18px 36px rgba(0,0,0,.24);
   }
-  .hero h1 span { color: var(--yellow); }
+  .hero h1 span {
+    color: transparent;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFE600 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
   .hero .subtitle {
     font-size: 19px;
     color: var(--muted);
@@ -242,7 +287,8 @@
   }
 
   /* ─── SECTIONS ─── */
-  section { padding: 80px 0; }
+  section { padding: 80px 0; background: var(--dark); }
+  section:nth-of-type(even):not(.hero) { background: var(--dark2); }
   section + section { border-top: 1px solid var(--border); }
 
   .section-label {
@@ -262,6 +308,7 @@
     line-height: 1.2;
     letter-spacing: -.02em;
     margin-bottom: 16px;
+    text-shadow: 0 10px 24px rgba(0,0,0,.32);
   }
   .section-body {
     font-size: 17px;
@@ -278,15 +325,26 @@
     margin-top: 48px;
   }
   .for-who-card {
-    background: var(--dark3);
-    border: 1px solid var(--border);
+    background: rgba(26, 26, 26, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 230, 0, 0.1);
     border-radius: 12px;
     padding: 28px;
+    box-shadow: 0 18px 38px rgba(0,0,0,.18);
+    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+  }
+  .for-who-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(255, 230, 0, 0.1), 0 24px 52px rgba(0,0,0,.28);
+    border-color: rgba(255,230,0,.45);
   }
   .for-who-card .icon {
     font-size: 28px;
     margin-bottom: 14px;
     display: block;
+    animation: float 3s ease-in-out infinite;
+    transform-origin: center;
   }
   .for-who-card h3 {
     font-family: var(--font-head);
@@ -308,10 +366,13 @@
     display: flex;
     align-items: flex-start;
     gap: 14px;
-    background: var(--dark3);
-    border: 1px solid var(--border);
+    background: rgba(26, 26, 26, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 230, 0, 0.1);
     border-radius: 10px;
     padding: 18px 22px;
+    box-shadow: 0 18px 38px rgba(0,0,0,.16);
   }
   .learn-item .check {
     width: 22px; height: 22px;
@@ -329,10 +390,19 @@
   /* ─── MODULOS ─── */
   .modules { margin-top: 48px; display: flex; flex-direction: column; gap: 4px; }
   .module {
-    background: var(--dark3);
-    border: 1px solid var(--border);
+    background: rgba(26, 26, 26, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 230, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
+    box-shadow: 0 18px 38px rgba(0,0,0,.16);
+    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+  }
+  .module:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(255, 230, 0, 0.1), 0 24px 52px rgba(0,0,0,.28);
+    border-color: rgba(255,230,0,.45);
   }
   .module-header {
     display: flex;
@@ -480,6 +550,7 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 32px;
     flex-shrink: 0;
+    animation: float 3s ease-in-out infinite;
   }
   .garantia-box h3 {
     font-family: var(--font-head);
@@ -493,13 +564,16 @@
   /* ─── PRECO ─── */
   .pricing-box {
     margin-top: 48px;
-    background: var(--dark2);
-    border: 1px solid rgba(255,230,0,.2);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.025) 0%, rgba(255,255,255,.01) 100%),
+      rgba(15,15,15,.88);
+    border: 1px solid rgba(255,230,0,.22);
     border-radius: 16px;
     padding: 48px;
     text-align: center;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 28px 70px rgba(0,0,0,.35);
   }
   .pricing-box::before {
     content: '';
@@ -509,6 +583,21 @@
     width: 400px; height: 200px;
     background: radial-gradient(ellipse, rgba(255,230,0,.08) 0%, transparent 70%);
     pointer-events: none;
+  }
+  .pricing-box::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(255,230,0,.65) 64deg, transparent 120deg, transparent 240deg, rgba(255,255,255,.18) 300deg, transparent 360deg);
+    animation: rotateBorder 5.5s linear infinite;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: .9;
   }
   .price-from {
     font-size: 14px;
@@ -552,6 +641,37 @@
   .btn-wrapper { margin-bottom: 16px; }
   .btn-wrapper .btn-primary { width: 100%; max-width: 420px; font-size: 20px; padding: 22px; }
   .price-footer { font-size: 13px; color: var(--muted); }
+  .pricing-seal {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(10,10,10,.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 230, 0, 0.14);
+    border-radius: 999px;
+    box-shadow: 0 14px 30px rgba(0,0,0,.22);
+    animation: sealPulse 2.6s ease-in-out infinite;
+  }
+  .pricing-seal img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+  }
+  .pricing-seal span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    white-space: nowrap;
+  }
 
   /* ─── FAQ ─── */
   .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 4px; }
@@ -618,8 +738,15 @@
     header .btn-header { padding: 8px 16px; font-size: 12px; }
     .countdown-unit { min-width: 54px; padding: 8px 10px; }
     .countdown-unit .num { font-size: 22px; }
-    .hero-logo-wrap { margin-bottom: 14px; }
-    .hero-logo { width: min(150px, 42vw); }
+    .pricing-seal {
+      position: static;
+      margin: 18px auto 0;
+      width: fit-content;
+    }
+    .for-who-card:hover,
+    .module:hover {
+      transform: none;
+    }
   }
 
   /* ─── ANIMATIONS ─── */
@@ -627,10 +754,47 @@
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  .hero-logo-wrap, .hero h1, .hero .subtitle, .hero-cta { animation: fadeUp .6s ease both; }
-  .hero-logo-wrap { animation-delay: .05s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,230,0,.12); }
+    50% { box-shadow: 0 0 0 10px rgba(255,230,0,0); }
+  }
+  @keyframes shine {
+    0% { left: -42%; opacity: 0; }
+    8% { opacity: .95; }
+    24% { left: 118%; opacity: 0; }
+    100% { left: 118%; opacity: 0; }
+  }
+  @keyframes rotateBorder {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes sealPulse {
+    0%, 100% { box-shadow: 0 14px 30px rgba(0,0,0,.22), 0 0 0 0 rgba(255,230,0,.14); }
+    50% { box-shadow: 0 14px 30px rgba(0,0,0,.22), 0 0 0 12px rgba(255,230,0,0); }
+  }
+  .hero h1, .hero .subtitle, .hero-cta { animation: fadeUp .6s ease both; }
   .hero .subtitle { animation-delay: .1s; }
   .hero-cta { animation-delay: .2s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-primary,
+    .btn-primary::before,
+    .for-who-card .icon,
+    .garantia-icon,
+    .pricing-box::after,
+    .pricing-seal {
+      animation: none !important;
+    }
+    .for-who-card,
+    .module,
+    .btn-primary {
+      transition: none;
+    }
+  }
 
   /* ─── SCROLL ANIMATIONS ─── */
   .reveal {
@@ -650,16 +814,13 @@
 <body>
 
 <header id="site-header">
-  <img src="Logo ML.png" alt="Logo" class="logo-img">
+  <img src="logo-mentoria.png" alt="Logo da Mentoria Virada de Chave" class="logo-img">
   <a href="https://pay.cakto.com.br/35evi2a_840418" class="btn-header">Entrar na Mentoria</a>
 </header>
 
 <section class="hero">
   <div class="container">
     <span class="tag">Mentoria completa · Acesso imediato</span>
-    <div class="hero-logo-wrap">
-      <img class="hero-logo" src="logo-mentoria.png" alt="Logo da Mentoria Virada de Chave" loading="eager">
-    </div>
     <h1><span>Virada de Chave</span> no Mercado Livre</h1>
     <p class="subtitle">Do zero às primeiras vendas no Mercado Livre</p>
 
@@ -692,16 +853,16 @@
 <div class="proof-bar">
   <div class="container reveal-stagger">
     <div class="proof-item reveal" style="--i:0">
-      <span class="num">8h+</span>
-      <span class="desc">de conteúdo prático</span>
+      <span class="num">24</span>
+      <span class="desc">aulas práticas</span>
     </div>
     <div class="proof-item reveal" style="--i:1">
-      <span class="num">35</span>
-      <span class="desc">aulas gravadas</span>
+      <span class="num">7</span>
+      <span class="desc">módulos principais</span>
     </div>
     <div class="proof-item reveal" style="--i:2">
-      <span class="num">7</span>
-      <span class="desc">módulos de mentoria</span>
+      <span class="num">+1</span>
+      <span class="desc">módulo bônus</span>
     </div>
     <div class="proof-item reveal" style="--i:3">
       <span class="num">Vitalício</span>
@@ -771,7 +932,7 @@
   <div class="container">
     <div class="section-label reveal">Conteúdo da mentoria</div>
     <h2 class="section-title reveal">O que está dentro da mentoria</h2>
-    <p class="section-body reveal">35 aulas organizadas do básico ao avançado. Você avança no seu ritmo, sem prazo.</p>
+    <p class="section-body reveal">24 aulas organizadas do básico ao avançado, distribuídas em 7 módulos principais e 1 módulo bônus. Você avança no seu ritmo, sem prazo.</p>
 
     <div class="modules">
 
@@ -982,8 +1143,8 @@
       <div class="price-main"><sup>R$</sup>97</div>
       <p class="price-desc">Promoção relâmpago · Pagamento único · Acesso vitalício</p>
       <div class="price-includes">
-        <div class="price-inc-item">8h+ de conteúdo em vídeo</div>
-        <div class="price-inc-item">35 aulas do zero ao avançado</div>
+        <div class="price-inc-item">24 aulas do zero ao avançado</div>
+        <div class="price-inc-item">7 módulos principais + 1 bônus</div>
         <div class="price-inc-item">Planilha de precificação</div>
         <div class="price-inc-item">Bônus: Shopee e TikTok Shop</div>
         <div class="price-inc-item">Acesso vitalício com atualizações</div>
@@ -993,6 +1154,10 @@
         <a href="https://pay.cakto.com.br/35evi2a_840418" class="btn-primary">Garantir minha vaga</a>
       </div>
       <p class="price-footer">Pagamento seguro via Cakto · Cartão, Pix ou boleto</p>
+      <div class="pricing-seal">
+        <img src="logo-mentoria.png" alt="Selo do método validado">
+        <span>Método 100% Validado</span>
+      </div>
     </div>
   </div>
 </section>
